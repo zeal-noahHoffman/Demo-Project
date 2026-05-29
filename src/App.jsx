@@ -116,9 +116,7 @@ function Hero() {
         </h1>
 
         <p className="hero__lede fade-load" style={{ animationDelay: ".7s" }}>
-          Atlantic Aviation is a members-only private airline for people who measure
-          travel in hours saved, not miles flown. No terminals. No queues. Just your
-          jet, your schedule, and the runway clear ahead.
+          Hello World! This is my first ticket from the agent
         </p>
 
         <div className="hero__actions fade-load" style={{ animationDelay: ".9s" }}>
