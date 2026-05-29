@@ -53,7 +53,7 @@ export const FLEET = [
     specs: [
       ["Passengers", "9"],
       ["Range", "3,400 nm"],
-      ["Cruise", "513 kts"],
+      ["Cruise", "505 kts"],
       ["Cabin height", "5.8 ft"],
     ],
   },
