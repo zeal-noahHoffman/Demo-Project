@@ -257,6 +257,7 @@ img { display: block; max-width: 100%; }
 
 .hero__content { width: 100%; }
 .hero__title {
+  font-family: Georgia, serif;
   font-size: clamp(2.8rem, 8.5vw, 8rem);
   margin: 0.35em 0 0.4em;
   max-width: 16ch;
