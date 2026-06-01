@@ -309,6 +309,18 @@ function Destinations() {
 
 const TIERS = [
   {
+    name: "Explorer",
+    price: "3k",
+    period: "/ year",
+    feature: false,
+    perks: [
+      "6 flight hours included",
+      "Light jet access",
+      "48-hour booking window",
+      "Dedicated travel desk",
+    ],
+  },
+  {
     name: "Voyager",
     price: "12k",
     period: "/ year",
