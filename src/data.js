@@ -1,4 +1,4 @@
-// Static data for the Atlantic Aviation demo. No backend — everything the
+// Static data for the Skyline Airways demo. No backend — everything the
 // "booking" experience needs is computed client-side from these tables.
 
 export const AIRPORTS = [
@@ -44,7 +44,7 @@ export const FLEET = [
   },
   {
     id: "mid",
-    name: "The Atlantic",
+    name: "The Continental",
     klass: "Midsize Jet",
     glyph: "✧",
     blurb:

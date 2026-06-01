@@ -58,7 +58,7 @@ function Nav() {
       <div className="wrap nav__inner">
         <a className="brand" href="#top">
           <span className="brand__mark"><Logo /></span>
-          <span className="brand__name">Atlantic <b>Aviation</b></span>
+          <span className="brand__name">Skyline <b>Airways</b></span>
         </a>
 
         <div className="nav__links">
@@ -316,7 +316,7 @@ const TIERS = [
     perks: ["25 flight hours included", "Light & midsize access", "48-hour booking window", "Dedicated travel desk"],
   },
   {
-    name: "Atlantic",
+    name: "Horizon",
     price: "48k",
     period: "/ year",
     feature: true,
@@ -391,7 +391,7 @@ function Footer() {
           <div className="footer__brand">
             <a className="brand" href="#top">
               <span className="brand__mark"><Logo /></span>
-              <span className="brand__name">Atlantic <b>Aviation</b></span>
+              <span className="brand__name">Skyline <b>Airways</b></span>
             </a>
             <p>Private charter aviation for the few who fly differently. Operated under Part 135. This is a demo experience.</p>
           </div>
@@ -410,14 +410,14 @@ function Footer() {
             </div>
             <div className="footer__col">
               <h4>Contact</h4>
-              <a href="#top">fly@atlantic.aero</a>
+              <a href="#top">fly@skyline.aero</a>
               <a href="#top">+1 (800) 000-0000</a>
               <a href="#top">Teterboro, NJ</a>
             </div>
           </div>
         </div>
         <div className="footer__bottom">
-          <span>© {new Date().getFullYear()} Atlantic Aviation. A demonstration site.</span>
+          <span>© {new Date().getFullYear()} Skyline Airways. A demonstration site.</span>
           <span>Privacy · Terms · Operating Certificate</span>
         </div>
       </div>
