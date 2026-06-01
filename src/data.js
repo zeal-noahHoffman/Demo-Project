@@ -24,6 +24,7 @@ export const DESTINATIONS = [
   { code: "MIA", city: "Miami",    country: "United States",  from: "New York", hours: 2.9 },
   { code: "LIML",city: "Milan",    country: "Italy",          from: "London",   hours: 1.8 },
   { code: "RJTT",city: "Tokyo",    country: "Japan",          from: "Los Angeles", hours: 11.2 },
+  { code: "YSSY",city: "Sydney",   country: "Australia",      from: "Tokyo",        hours: 9.5 },
 ];
 
 export const FLEET = [
