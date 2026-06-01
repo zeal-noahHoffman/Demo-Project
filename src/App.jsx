@@ -329,7 +329,7 @@ const TIERS = [
   },
   {
     name: "Horizon",
-    price: "48k",
+    price: "20k",
     period: "/ year",
     feature: true,
     perks: ["120 flight hours included", "Full-fleet access", "10-hour guaranteed availability", "Fixed hourly rates", "Complimentary empty-leg upgrades"],
