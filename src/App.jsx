@@ -334,6 +334,18 @@ const TIERS = [
     feature: true,
     perks: ["120 flight hours included", "Full-fleet access", "10-hour guaranteed availability", "Fixed hourly rates", "Complimentary empty-leg upgrades"],
   },
+  {
+    name: "Adventure",
+    price: "40k",
+    period: "/ year",
+    feature: false,
+    perks: [
+      "24 flight hours included",
+      "Full jet access",
+      "8-hour booking window",
+      "Complimentary free checked bags",
+    ],
+  },
 ];
 
 function Membership() {
