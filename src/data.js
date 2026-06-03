@@ -16,8 +16,6 @@ export const AIRPORTS = [
 
 // Curated set of marquee destinations for the grid.
 export const DESTINATIONS = [
-  { code: "LCY", city: "London",   country: "United Kingdom", from: "New York", hours: 6.8 },
-  { code: "LFPB",city: "Paris",    country: "France",         from: "New York", hours: 7.1 },
   { code: "LSGG",city: "Geneva",   country: "Switzerland",    from: "London",   hours: 1.4 },
   { code: "OMDB",city: "Dubai",    country: "U.A.E.",         from: "Paris",    hours: 6.5 },
   { code: "LAX", city: "Los Angeles", country: "United States", from: "New York", hours: 5.4 },
