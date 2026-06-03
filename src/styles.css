@@ -54,6 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
 }
 
 ::selection { background: var(--blue); color: #fff; }
@@ -530,4 +531,62 @@ section { position: relative; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
   .reveal-load, .fade-load { opacity: 1 !important; transform: none !important; }
+}
+
+/* ============================ DARK MODE ============================ */
+
+/* Step 3 — Token overrides */
+[data-theme="dark"] {
+  --paper:     #0e1a2e;
+  --paper-2:   #111e32;
+  --paper-3:   #152440;
+  --ink:       #e8edf6;
+  --ink-soft:  #8fa3c8;
+  --ink-faint: #5a6f8f;
+  --line:      rgba(255, 255, 255, 0.08);
+  --line-soft: rgba(255, 255, 255, 0.05);
+  --shadow:    0 24px 60px -28px rgba(0, 0, 0, 0.60);
+}
+
+/* Step 4 — Nav dark-mode overrides */
+[data-theme="dark"] .nav.scrolled {
+  background: rgba(14, 26, 46, 0.90);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: 0 8px 30px -20px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .nav.open {
+  background: rgba(14, 26, 46, 0.96);
+  color: var(--ink);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--line);
+}
+
+[data-theme="dark"] .nav.open .nav__links {
+  background: var(--paper);
+  color: var(--ink);
+  border-bottom-color: var(--line);
+}
+
+/* Step 5 — Dark-mode toggle button */
+.nav__dark-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: currentColor;
+  opacity: 0.82;
+  transition: background 0.3s var(--ease), opacity 0.3s var(--ease);
+  flex-shrink: 0;
+}
+.nav__dark-toggle:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.08);
+}
+[data-theme="dark"] .nav__dark-toggle:hover {
+  background: rgba(255, 255, 255, 0.10);
 }
