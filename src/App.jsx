@@ -111,8 +111,9 @@ function Hero() {
         </span>
 
         <h1 className="serif hero__title">
-          <span className="line"><span className="reveal-load" style={{ animationDelay: ".25s" }}>The sky,</span></span>
-          <span className="line"><span className="reveal-load" style={{ animationDelay: ".4s" }}><em>privately</em> yours.</span></span>
+          <span className="line"><span className="reveal-load" style={{ animationDelay: ".25s" }}>Big plans,</span></span>
+          <span className="line"><span className="reveal-load" style={{ animationDelay: ".4s" }}>longer destinations,</span></span>
+          <span className="line"><span className="reveal-load" style={{ animationDelay: ".55s" }}>let us take you there</span></span>
         </h1>
 
         <p className="hero__lede fade-load" style={{ animationDelay: ".7s" }}>
