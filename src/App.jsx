@@ -414,6 +414,12 @@ function Footer() {
           </div>
           <div className="footer__cols">
             <div className="footer__col">
+              <h4>Contact</h4>
+              <a href="#top">fly@skyline.aero</a>
+              <a href="#top">+1 (800) 000-0000</a>
+              <a href="#top">Teterboro, NJ</a>
+            </div>
+            <div className="footer__col">
               <h4>Fly</h4>
               <a href="#fleet">The Fleet</a>
               <a href="#destinations">Destinations</a>
@@ -424,12 +430,6 @@ function Footer() {
               <a href="#membership">Membership</a>
               <a href="#request">Request access</a>
               <a href="#top">Safety</a>
-            </div>
-            <div className="footer__col">
-              <h4>Contact</h4>
-              <a href="#top">fly@skyline.aero</a>
-              <a href="#top">+1 (800) 000-0000</a>
-              <a href="#top">Teterboro, NJ</a>
             </div>
           </div>
         </div>
