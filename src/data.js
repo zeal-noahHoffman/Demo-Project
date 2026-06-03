@@ -23,6 +23,8 @@ export const DESTINATIONS = [
   { code: "LIML",city: "Milan",       country: "Italy",         from: "London",      hours: 1.8,  price: "From $10,000" },
   { code: "RJTT",city: "Tokyo",       country: "Japan",         from: "Los Angeles", hours: 11.2, price: "From $49,500" },
   { code: "YSSY",city: "Sydney",      country: "Australia",     from: "Tokyo",       hours: 9.5,  price: "From $42,000" },
+  { code: "LCY", city: "London",      country: "United Kingdom", from: "New York",    hours: 6.8,  price: "From $29,000" },
+  { code: "LFPB",city: "Paris",       country: "France",         from: "New York",    hours: 7.1,  price: "From $30,000" },
 ];
 
 export const FLEET = [
