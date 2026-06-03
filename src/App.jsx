@@ -297,6 +297,7 @@ function Destinations() {
               <span className="code">{d.code}</span>
               <span className="city">{d.city}</span>
               <span className="country">{d.country}</span>
+              <span className="price">{d.price}</span>
             </a>
           ))}
         </div>
