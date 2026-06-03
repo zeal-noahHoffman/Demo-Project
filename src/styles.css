@@ -429,6 +429,7 @@ section { position: relative; }
 .dest__card .city { font-size: 1.1rem; font-weight: 700; margin-top: auto; }
 .dest__card .country { font-size: 0.76rem; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
 .dest__card .time { position: absolute; top: 24px; right: 24px; font-size: 0.72rem; color: var(--teal); font-weight: 600; }
+.dest__card .price { font-size: 0.76rem; font-weight: 700; color: var(--blue-bright); margin-top: 6px; letter-spacing: 0.04em; }
 
 /* ---------- Membership ---------- */
 .member { background: var(--paper); }
