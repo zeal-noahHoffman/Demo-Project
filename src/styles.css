@@ -42,6 +42,30 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+[data-theme="dark"] {
+  --paper:     #0f1624;
+  --paper-2:   #141d2e;
+  --paper-3:   #1a2540;
+  --ink:       #e2e8f8;
+  --ink-soft:  #8897bb;
+  --ink-faint: #4a5d80;
+  --line:      rgba(255, 255, 255, 0.10);
+  --line-soft: rgba(255, 255, 255, 0.06);
+  --shadow:    0 24px 60px -28px rgba(0, 0, 0, 0.65);
+}
+
+[data-theme="dark"] .nav.scrolled {
+  background: rgba(15, 22, 36, 0.90);
+  color: var(--ink);
+}
+[data-theme="dark"] .nav.open {
+  background: rgba(15, 22, 36, 0.96);
+  color: var(--ink);
+}
+[data-theme="dark"] .fleet__tab:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
@@ -176,6 +200,30 @@ img { display: block; max-width: 100%; }
 
 .nav__cta { display: flex; align-items: center; gap: 1.2rem; }
 .nav__toggle { display: none; background: none; border: 0; color: currentColor; }
+.nav__theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: none;
+  border: 1.5px solid currentColor;
+  color: currentColor;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.4s var(--ease), background 0.3s var(--ease);
+  flex-shrink: 0;
+}
+.nav__theme-toggle:hover {
+  opacity: 1;
+  transform: rotate(22deg);
+}
+.nav__theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
 
 /* ============================ HERO ============================ */
 .hero {
@@ -524,6 +572,21 @@ section { position: relative; }
   .booking__form { grid-template-columns: 1fr; }
   .quote { grid-template-columns: 1fr; text-align: left; }
   .dest__grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Theme-switch transitions ---------- */
+body,
+.booking__card,
+.field,
+.quote,
+.fleet__tab,
+.fleet__display,
+.dest__card,
+.tier {
+  transition: background-color 0.45s var(--ease),
+              color 0.45s var(--ease),
+              border-color 0.45s var(--ease),
+              box-shadow 0.45s var(--ease);
 }
 
 @media (prefers-reduced-motion: reduce) {
