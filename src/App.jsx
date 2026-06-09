@@ -29,7 +29,7 @@ const LINKS = [
   ["Fleet", "#fleet"],
   ["Destinations", "#destinations"],
   ["Membership", "#membership"],
-  ["Hello World", "#"],
+  ["Settings", null],   // null href = action trigger (renders as button)
 ];
 
 function Logo() {
@@ -43,7 +43,7 @@ function Logo() {
   );
 }
 
-function Nav({ darkMode, onToggleTheme }) {
+function Nav({ darkMode, onToggleTheme, onToggleSettings }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -63,9 +63,19 @@ function Nav({ darkMode, onToggleTheme }) {
         </a>
 
         <div className="nav__links">
-          {LINKS.map(([label, href]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
-          ))}
+          {LINKS.map(([label, href]) =>
+            href ? (
+              <a key={label} href={href} onClick={() => setOpen(false)}>{label}</a>
+            ) : (
+              <button
+                key={label}
+                className="nav__link-btn"
+                onClick={() => { onToggleSettings(); setOpen(false); }}
+              >
+                {label}
+              </button>
+            )
+          )}
         </div>
 
         <div className="nav__cta">
@@ -475,6 +485,67 @@ function Footer() {
   );
 }
 
+/* --------------------------------------------------------- settings panel */
+
+function SettingsPanel({ open, onClose }) {
+  const [currency, setCurrency]         = useState("USD");
+  const [distanceUnit, setDistanceUnit] = useState("km");
+
+  if (!open) return null;
+
+  return (
+    <div className="settings-overlay" onClick={onClose}>
+      <div className="settings-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="settings-panel__header">
+          <h2 className="serif">Settings</h2>
+          <button
+            className="settings-panel__close"
+            aria-label="Close settings"
+            onClick={onClose}
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="settings-panel__body">
+          {/* Control 1: Preferred currency */}
+          <div className="settings-control">
+            <label className="settings-control__label" htmlFor="sp-currency">
+              Preferred currency
+            </label>
+            <select
+              id="sp-currency"
+              className="settings-control__select"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+            >
+              <option value="USD">USD — US Dollar</option>
+              <option value="EUR">EUR — Euro</option>
+              <option value="GBP">GBP — British Pound</option>
+            </select>
+          </div>
+
+          {/* Control 2: Distance units */}
+          <div className="settings-control">
+            <span className="settings-control__label">Distance units</span>
+            <div className="settings-control__toggle" role="group">
+              {["km", "mi"].map((unit) => (
+                <button
+                  key={unit}
+                  className={`toggle-btn ${distanceUnit === unit ? "active" : ""}`}
+                  onClick={() => setDistanceUnit(unit)}
+                >
+                  {unit}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* -------------------------------------------------------------------- app */
 
 export default function App() {
@@ -484,6 +555,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("theme") === "dark"
   );
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -501,7 +573,11 @@ export default function App() {
 
   return (
     <div ref={root}>
-      <Nav darkMode={darkMode} onToggleTheme={() => setDarkMode((d) => !d)} />
+      <Nav
+        darkMode={darkMode}
+        onToggleTheme={() => setDarkMode((d) => !d)}
+        onToggleSettings={() => setSettingsOpen((s) => !s)}
+      />
       <Hero />
       <Booking />
       <Fleet />
@@ -509,6 +585,10 @@ export default function App() {
       <Membership />
       <CTA />
       <Footer />
+      <SettingsPanel
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
     </div>
   );
 }
