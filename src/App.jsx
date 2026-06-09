@@ -1,7 +1,39 @@
 import { useEffect, useRef, useState } from "react";
 import { AIRPORTS, DESTINATIONS, FLEET, quote } from "./data.js";
+import { API_BASE_URL } from "./config.js";
 
 /* ------------------------------------------------------------------ hooks */
+
+// Polls GET /api/health once on mount; returns { phase, timestamp }.
+function useHealthCheck() {
+  const [status, setStatus] = useState({ phase: "loading", timestamp: null });
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    fetch(`${API_BASE_URL}/health`, { signal: controller.signal })
+      .then((res) => {
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        setStatus({ phase: "ok", timestamp: data?.timestamp ?? null });
+      })
+      .catch(() => {
+        clearTimeout(timeoutId);
+        setStatus({ phase: "error", timestamp: null });
+      });
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
+  }, []);
+
+  return status;
+}
 
 // Adds an `in` class to elements when they scroll into view.
 function useScrollReveal() {
@@ -29,6 +61,7 @@ const LINKS = [
   ["Fleet", "#fleet"],
   ["Destinations", "#destinations"],
   ["Membership", "#membership"],
+  ["Settings", "#settings"],
   ["Hello World", "#"],
 ];
 
@@ -420,6 +453,50 @@ function Membership() {
   );
 }
 
+/* ---------------------------------------------------------------- settings */
+
+function Settings() {
+  const { phase, timestamp } = useHealthCheck();
+
+  return (
+    <section className="settings section-pad" id="settings">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <h2 className="serif">Settings</h2>
+        </div>
+
+        <div className="settings__card reveal">
+          <h3>Backend Status</h3>
+
+          {phase === "loading" && (
+            <div className="status-badge">
+              <span className="status-dot status-dot--loading" aria-hidden="true" />
+              <span>Checking…</span>
+            </div>
+          )}
+
+          {phase === "ok" && (
+            <div className="status-badge">
+              <span className="status-dot status-dot--ok" aria-hidden="true" />
+              <span>Backend: Healthy</span>
+              {timestamp && (
+                <span className="status-badge__ts">{timestamp}</span>
+              )}
+            </div>
+          )}
+
+          {phase === "error" && (
+            <div className="status-badge">
+              <span className="status-dot status-dot--error" aria-hidden="true" />
+              <span>Backend: Unavailable</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ----------------------------------------------------------- cta + footer */
 
 function CTA() {
@@ -511,6 +588,7 @@ export default function App() {
       <Fleet />
       <Destinations />
       <Membership />
+      <Settings />
       <CTA />
       <Footer />
     </div>
