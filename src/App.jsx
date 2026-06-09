@@ -115,10 +115,6 @@ function Hero() {
           <span className="line"><span className="reveal-load" style={{ animationDelay: ".4s" }}><em>privately</em> yours.</span></span>
         </h1>
 
-        <p className="hero__lede fade-load" style={{ animationDelay: ".7s" }}>
-          Hello World! This is my first ticket from the agent
-        </p>
-
         <div className="hero__actions fade-load" style={{ animationDelay: ".9s" }}>
           <a className="btn btn--gold" href="#book">Plan a flight <span className="arrow">→</span></a>
           <a className="btn btn--ghost" href="#fleet">Explore the fleet</a>
