@@ -29,6 +29,7 @@ const LINKS = [
   ["Fleet", "#fleet"],
   ["Destinations", "#destinations"],
   ["Membership", "#membership"],
+  ["Hello World", "#"],
 ];
 
 function Logo() {
