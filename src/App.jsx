@@ -29,6 +29,7 @@ const LINKS = [
   ["Fleet", "#fleet"],
   ["Destinations", "#destinations"],
   ["Membership", "#membership"],
+  ["Hello World", "#"],
 ];
 
 function Logo() {
@@ -42,7 +43,7 @@ function Logo() {
   );
 }
 
-function Nav() {
+function Nav({ darkMode, onToggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -68,6 +69,33 @@ function Nav() {
         </div>
 
         <div className="nav__cta">
+          <button
+            className="nav__theme-toggle"
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={onToggleTheme}
+          >
+            {darkMode ? (
+              /* Sun icon */
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+                   strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            ) : (
+              /* Moon icon */
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+                   strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+          </button>
           <a className="btn btn--gold" href="#request">Request Access</a>
           <button
             className="nav__toggle"
@@ -111,8 +139,16 @@ function Hero() {
         </span>
 
         <h1 className="serif hero__title">
-          <span className="line"><span className="reveal-load" style={{ animationDelay: ".25s" }}>The sky,</span></span>
-          <span className="line"><span className="reveal-load" style={{ animationDelay: ".4s" }}><em>privately</em> yours.</span></span>
+          <span className="line">
+            <span className="reveal-load" style={{ animationDelay: ".25s" }}>
+              Big plans, longer destinations,
+            </span>
+          </span>
+          <span className="line">
+            <span className="reveal-load" style={{ animationDelay: ".4s" }}>
+              let us take you <em>there</em>
+            </span>
+          </span>
         </h1>
 
         <div className="hero__actions fade-load" style={{ animationDelay: ".9s" }}>
@@ -293,6 +329,7 @@ function Destinations() {
               <span className="code">{d.code}</span>
               <span className="city">{d.city}</span>
               <span className="country">{d.country}</span>
+              <span className="price">{d.price}</span>
             </a>
           ))}
         </div>
@@ -329,6 +366,18 @@ const TIERS = [
     period: "/ year",
     feature: true,
     perks: ["120 flight hours included", "Full-fleet access", "10-hour guaranteed availability", "Fixed hourly rates", "Complimentary empty-leg upgrades"],
+  },
+  {
+    name: "Adventure",
+    price: "40k",
+    period: "/ year",
+    feature: false,
+    perks: [
+      "24 flight hours included",
+      "Full jet access",
+      "8-hour booking window",
+      "Complimentary free checked bags",
+    ],
   },
 ];
 
@@ -398,6 +447,12 @@ function Footer() {
           </div>
           <div className="footer__cols">
             <div className="footer__col">
+              <h4>Contact</h4>
+              <a href="#top">testingDemo@email.com</a>
+              <a href="#top">+1 (800) 425-2628</a>
+              <a href="#top">Teterboro, NJ</a>
+            </div>
+            <div className="footer__col">
               <h4>Fly</h4>
               <a href="#fleet">The Fleet</a>
               <a href="#destinations">Destinations</a>
@@ -408,12 +463,6 @@ function Footer() {
               <a href="#membership">Membership</a>
               <a href="#request">Request access</a>
               <a href="#top">Safety</a>
-            </div>
-            <div className="footer__col">
-              <h4>Contact</h4>
-              <a href="#top">fly@skyline.aero</a>
-              <a href="#top">+1 (800) 000-0000</a>
-              <a href="#top">Teterboro, NJ</a>
             </div>
           </div>
         </div>
@@ -432,6 +481,18 @@ export default function App() {
   const root = useRef(null);
   useScrollReveal();
 
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("theme") === "dark"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      darkMode ? "dark" : "light"
+    );
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
   useEffect(() => {
     // Trigger the staggered hero load animation after first paint.
     const id = requestAnimationFrame(() => root.current?.classList.add("loaded"));
@@ -440,7 +501,7 @@ export default function App() {
 
   return (
     <div ref={root}>
-      <Nav />
+      <Nav darkMode={darkMode} onToggleTheme={() => setDarkMode((d) => !d)} />
       <Hero />
       <Booking />
       <Fleet />

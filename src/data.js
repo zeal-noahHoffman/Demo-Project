@@ -16,15 +16,15 @@ export const AIRPORTS = [
 
 // Curated set of marquee destinations for the grid.
 export const DESTINATIONS = [
-  { code: "LCY", city: "London",   country: "United Kingdom", from: "New York", hours: 6.8 },
-  { code: "LFPB",city: "Paris",    country: "France",         from: "New York", hours: 7.1 },
-  { code: "LSGG",city: "Geneva",   country: "Switzerland",    from: "London",   hours: 1.4 },
-  { code: "OMDB",city: "Dubai",    country: "U.A.E.",         from: "Paris",    hours: 6.5 },
-  { code: "LAX", city: "Los Angeles", country: "United States", from: "New York", hours: 5.4 },
-  { code: "MIA", city: "Miami",    country: "United States",  from: "New York", hours: 2.9 },
-  { code: "LIML",city: "Milan",    country: "Italy",          from: "London",   hours: 1.8 },
-  { code: "RJTT",city: "Tokyo",    country: "Japan",          from: "Los Angeles", hours: 11.2 },
-  { code: "YSSY",city: "Sydney",   country: "Australia",      from: "Tokyo",        hours: 9.5 },
+  { code: "LSGG",city: "Geneva",      country: "Switzerland",   from: "London",      hours: 1.4,  price: "From $8,500"  },
+  { code: "OMDB",city: "Dubai",       country: "U.A.E.",        from: "Paris",       hours: 6.5,  price: "From $30,000" },
+  { code: "LAX", city: "Los Angeles", country: "United States", from: "New York",    hours: 5.4,  price: "From $25,000" },
+  { code: "MIA", city: "Miami",       country: "United States", from: "New York",    hours: 2.9,  price: "From $14,500" },
+  { code: "LIML",city: "Milan",       country: "Italy",         from: "London",      hours: 1.8,  price: "From $10,000" },
+  { code: "RJTT",city: "Tokyo",       country: "Japan",         from: "Los Angeles", hours: 11.2, price: "From $49,500" },
+  { code: "YSSY",city: "Sydney",      country: "Australia",     from: "Tokyo",       hours: 9.5,  price: "From $42,000" },
+  { code: "LCY", city: "London",      country: "United Kingdom", from: "New York",    hours: 6.5,  price: "From $29,000" },
+  { code: "LFPB",city: "Paris",       country: "France",         from: "New York",    hours: 7.0,  price: "From $30,500" },
 ];
 
 export const FLEET = [
