@@ -479,6 +479,42 @@ section { position: relative; }
 .dest__card .time { position: absolute; top: 24px; right: 24px; font-size: 0.72rem; color: var(--teal); font-weight: 600; }
 .dest__card .price { font-size: 0.76rem; font-weight: 700; color: var(--blue-bright); margin-top: 6px; letter-spacing: 0.04em; }
 
+/* ---------- Destinations: search ---------- */
+.dest__search {
+  margin-bottom: 28px;
+}
+.dest__search input {
+  width: 100%;
+  max-width: 420px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.96rem;
+  font-weight: 500;
+  padding: 11px 16px;
+  outline: none;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  display: block;
+}
+.dest__search input:focus {
+  border-color: var(--blue);
+  background: var(--paper);
+}
+.dest__search input::placeholder {
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+/* ---------- Destinations: empty state ---------- */
+.dest__empty {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  padding: 48px 0;
+  text-align: center;
+}
+
 /* ---------- Membership ---------- */
 .member { background: var(--paper); }
 .member__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
@@ -653,6 +689,7 @@ body,
 .fleet__tab,
 .fleet__display,
 .dest__card,
+.dest__search input,
 .tier,
 .settings-panel,
 .settings-control__select,

@@ -319,30 +319,76 @@ function Fleet() {
 /* ----------------------------------------------------------- destinations */
 
 function Destinations() {
+  const [query, setQuery] = useState("");
+  const filterRef = useRef(false); // tracks whether filter was ever active
+
+  const q = query.trim().toLowerCase();
+  const filtered = q
+    ? DESTINATIONS.filter(
+        (d) =>
+          d.city.toLowerCase().includes(q) ||
+          d.country.toLowerCase().includes(q) ||
+          d.code.toLowerCase().includes(q)
+      )
+    : DESTINATIONS;
+
+  useEffect(() => {
+    if (query) {
+      filterRef.current = true;
+    } else if (filterRef.current) {
+      // query just cleared — add .in to any reveal cards that lack it
+      document
+        .querySelectorAll("#destinations .dest__card.reveal")
+        .forEach((el) => el.classList.add("in"));
+    }
+  }, [query]);
+
   return (
     <section className="section-pad" id="destinations">
       <div className="wrap">
         <div className="section-head reveal">
-          <h2 className="serif">Where the weekend <em style={{ color: "var(--brass-bright)" }}>begins</em>.</h2>
-          <p>A living network of private terminals across the cities our members ask for most.</p>
+          <h2 className="serif">
+            Where the weekend{" "}
+            <em style={{ color: "var(--brass-bright)" }}>begins</em>.
+          </h2>
+          <p>
+            A living network of private terminals across the cities our
+            members ask for most.
+          </p>
         </div>
 
-        <div className="dest__grid">
-          {DESTINATIONS.map((d, i) => (
-            <a
-              key={d.code}
-              className="dest__card reveal"
-              href="#book"
-              style={{ transitionDelay: `${(i % 4) * 80}ms` }}
-            >
-              <span className="time">{d.hours}h from {d.from}</span>
-              <span className="code">{d.code}</span>
-              <span className="city">{d.city}</span>
-              <span className="country">{d.country}</span>
-              <span className="price">{d.price}</span>
-            </a>
-          ))}
+        {/* Search input */}
+        <div className="dest__search">
+          <input
+            type="search"
+            placeholder="Search destinations…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Filter destinations"
+          />
         </div>
+
+        {/* Card grid or empty state */}
+        {filtered.length === 0 ? (
+          <p className="dest__empty">No destinations found.</p>
+        ) : (
+          <div className="dest__grid">
+            {filtered.map((d, i) => (
+              <a
+                key={d.code}
+                className={query ? "dest__card" : "dest__card reveal"}
+                href="#book"
+                style={query ? undefined : { transitionDelay: `${(i % 4) * 80}ms` }}
+              >
+                <span className="time">{d.hours}h from {d.from}</span>
+                <span className="code">{d.code}</span>
+                <span className="city">{d.city}</span>
+                <span className="country">{d.country}</span>
+                <span className="price">{d.price}</span>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
