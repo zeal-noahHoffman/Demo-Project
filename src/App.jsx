@@ -178,9 +178,8 @@ function Hero() {
 
 /* ---------------------------------------------------------------- booking */
 
-function Booking() {
+function Booking({ to, onToChange }) {
   const [from, setFrom] = useState("TEB");
-  const [to, setTo] = useState("LCY");
   const [date, setDate] = useState("");
   const [pax, setPax] = useState(4);
   const [result, setResult] = useState(null);
@@ -214,7 +213,7 @@ function Booking() {
           </div>
           <div className="field">
             <label htmlFor="to">To</label>
-            <select id="to" value={to} onChange={(e) => setTo(e.target.value)}>
+            <select id="to" value={to} onChange={(e) => onToChange(e.target.value)}>
               {AIRPORTS.map((a) => (
                 <option key={a.code} value={a.code}>{a.city} ({a.code})</option>
               ))}
@@ -318,7 +317,7 @@ function Fleet() {
 
 /* ----------------------------------------------------------- destinations */
 
-function Destinations() {
+function Destinations({ onSelectDestination }) {
   const [query, setQuery] = useState("");
   const filterRef = useRef(false); // tracks whether filter was ever active
 
@@ -379,6 +378,10 @@ function Destinations() {
                 className={query ? "dest__card" : "dest__card reveal"}
                 href="#book"
                 style={query ? undefined : { transitionDelay: `${(i % 4) * 80}ms` }}
+                onClick={(e) => { e.preventDefault(); onSelectDestination(d.code); }}
+                onKeyDown={(e) => {
+                  if (e.key === " ") { e.preventDefault(); onSelectDestination(d.code); }
+                }}
               >
                 <span className="time">{d.hours}h from {d.from}</span>
                 <span className="code">{d.code}</span>
@@ -629,6 +632,12 @@ export default function App() {
     () => localStorage.getItem("theme") === "dark"
   );
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [bookingTo, setBookingTo] = useState("LCY");
+
+  function handleSelectDestination(code) {
+    setBookingTo(code);
+    document.getElementById("book")?.scrollIntoView({ behavior: "smooth" });
+  }
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -652,9 +661,9 @@ export default function App() {
         onToggleSettings={() => setSettingsOpen((s) => !s)}
       />
       <Hero />
-      <Booking />
+      <Booking to={bookingTo} onToChange={setBookingTo} />
       <Fleet />
-      <Destinations />
+      <Destinations onSelectDestination={handleSelectDestination} />
       <Membership />
       <CTA />
       <Footer />
