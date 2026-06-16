@@ -561,7 +561,7 @@ function Destinations({ onSelectDestination }) {
 
         {/* Card grid or empty state */}
         {filtered.length === 0 ? (
-          <p className="dest__empty">No destinations found.</p>
+          <p className="dest__empty">No destinations match your search.</p>
         ) : (
           <div className="dest__grid">
             {filtered.map((d, i) => (
