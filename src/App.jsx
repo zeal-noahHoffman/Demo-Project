@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { AIRPORTS, DESTINATIONS, FLEET, quote } from "./data.js";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AIRPORTS, DESTINATIONS, FLEET, FLEET_SUMMARY_SPEC_COUNT, quote } from "./data.js";
 
 /* ------------------------------------------------------------------ hooks */
 
 // Adds an `in` class to elements when they scroll into view.
-function useScrollReveal() {
+// dep: re-observe whenever this value changes so remounted .reveal elements are picked up.
+function useScrollReveal(dep) {
   useEffect(() => {
     const els = document.querySelectorAll(".reveal");
     const io = new IntersectionObserver(
@@ -20,7 +21,32 @@ function useScrollReveal() {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
+  }, [dep]); // re-run when dep changes (e.g. route.view) to re-observe remounted elements
+}
+
+/* ---------------------------------------------------------------- routing */
+
+// Returns { view: 'home' } or { view: 'fleet-detail', id: string }
+function parseHash(hash) {
+  const m = hash.match(/^#\/fleet\/([\w-]+)$/);
+  if (m) return { view: "fleet-detail", id: m[1] };
+  return { view: "home" };
+}
+
+function useHashRoute() {
+  const [route, setRoute] = useState(() => parseHash(window.location.hash));
+
+  useEffect(() => {
+    const handler = () => setRoute(parseHash(window.location.hash));
+    window.addEventListener("hashchange", handler);
+    return () => window.removeEventListener("hashchange", handler);
   }, []);
+
+  const navigate = useCallback((hash) => {
+    window.location.hash = hash;
+  }, []);
+
+  return { route, navigate };
 }
 
 /* -------------------------------------------------------------------- nav */
@@ -178,7 +204,7 @@ function Hero() {
 
 /* ---------------------------------------------------------------- booking */
 
-function Booking({ to, onToChange }) {
+function Booking({ to, onToChange, jet: propJet, onJetChange }) {
   const [from, setFrom] = useState("TEB");
   const [date, setDate] = useState("");
   const [pax, setPax] = useState(4);
@@ -187,8 +213,8 @@ function Booking({ to, onToChange }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // Recommend a jet by passenger count.
-    const jet = pax <= 6 ? FLEET[0] : pax <= 9 ? FLEET[1] : FLEET[2];
+    // Use prefilled jet if set; otherwise recommend by passenger count.
+    const jet = propJet ?? (Number(pax) <= 6 ? FLEET[0] : Number(pax) <= 9 ? FLEET[1] : FLEET[2]);
     const q = quote(from, to, Number(pax), jet);
     if (!q) {
       setError("Please choose two different airports.");
@@ -227,6 +253,22 @@ function Booking({ to, onToChange }) {
             <label htmlFor="pax">Guests</label>
             <input id="pax" type="number" min="1" max="14" value={pax}
               onChange={(e) => setPax(e.target.value)} />
+          </div>
+          <div className="field">
+            <label htmlFor="jet-select">Aircraft</label>
+            <select
+              id="jet-select"
+              value={propJet?.id ?? "auto"}
+              onChange={(e) => {
+                const found = FLEET.find((j) => j.id === e.target.value) ?? null;
+                onJetChange(found);
+              }}
+            >
+              <option value="auto">Recommended by guests</option>
+              {FLEET.map((j) => (
+                <option key={j.id} value={j.id}>{j.name} ({j.klass})</option>
+              ))}
+            </select>
           </div>
           <div className="booking__submit">
             <button className="btn btn--gold" type="submit">Get quote <span className="arrow">→</span></button>
@@ -269,7 +311,7 @@ function Booking({ to, onToChange }) {
 
 /* ------------------------------------------------------------------ fleet */
 
-function Fleet() {
+function Fleet({ onViewDetail }) {
   const [active, setActive] = useState(FLEET[1].id);
   const jet = FLEET.find((j) => j.id === active);
 
@@ -284,14 +326,22 @@ function Fleet() {
         <div className="fleet__layout reveal">
           <div className="fleet__tabs">
             {FLEET.map((j) => (
-              <button
-                key={j.id}
-                className={`fleet__tab ${j.id === active ? "active" : ""}`}
-                onClick={() => setActive(j.id)}
-              >
-                <h3>{j.name}</h3>
-                <span>{j.klass}</span>
-              </button>
+              <div key={j.id} className="fleet__tab-group">
+                <button
+                  className={`fleet__tab ${j.id === active ? "active" : ""}`}
+                  onClick={() => setActive(j.id)}
+                >
+                  <h3>{j.name}</h3>
+                  <span>{j.klass}</span>
+                </button>
+                <a
+                  href={`#/fleet/${j.id}`}
+                  className="fleet__view-details"
+                  onClick={(e) => { e.preventDefault(); onViewDetail(j.id); }}
+                >
+                  View details →
+                </a>
+              </div>
             ))}
           </div>
 
@@ -301,17 +351,159 @@ function Fleet() {
             <h3 className="serif">{jet.name}</h3>
             <p>{jet.blurb}</p>
             <div className="fleet__specs">
-              {jet.specs.map(([label, value]) => (
+              {jet.specs.slice(0, FLEET_SUMMARY_SPEC_COUNT).map(([label, value]) => (
                 <div key={label}>
                   <span>{label}</span>
                   <b>{value}</b>
                 </div>
               ))}
             </div>
+            <button
+              className="btn btn--ghost fleet__details-btn"
+              onClick={() => onViewDetail(jet.id)}
+            >
+              Full specifications →
+            </button>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* --------------------------------------------------------------- gallery */
+
+function Gallery({ images = [], altPrefix = "Aircraft" }) {
+  const [idx, setIdx] = useState(0);
+  const count = images.length;
+
+  // Reset index when images array identity changes (navigating to different aircraft)
+  useEffect(() => { setIdx(0); }, [images]);
+
+  if (count === 0) {
+    return (
+      <div className="gallery gallery--empty" role="img" aria-label="No images available">
+        <div className="gallery__placeholder">
+          <span aria-hidden="true">✦</span>
+          <p>No images available</p>
+        </div>
+      </div>
+    );
+  }
+
+  const prev = () => setIdx((i) => (i - 1 + count) % count);
+  const next = () => setIdx((i) => (i + 1) % count);
+
+  return (
+    <div className="gallery" role="region" aria-label="Aircraft gallery">
+      <div className="gallery__stage">
+        <img
+          className="gallery__img"
+          src={images[idx]}
+          alt={`${altPrefix} — image ${idx + 1} of ${count}`}
+        />
+        {count > 1 && (
+          <>
+            <button
+              className="gallery__nav gallery__nav--prev"
+              onClick={prev}
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+            <button
+              className="gallery__nav gallery__nav--next"
+              onClick={next}
+              aria-label="Next image"
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
+      {count > 1 && (
+        <div className="gallery__dots" role="tablist" aria-label="Gallery images">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              className={`gallery__dot ${i === idx ? "active" : ""}`}
+              aria-label={`Image ${i + 1}`}
+              aria-selected={i === idx}
+              onClick={() => setIdx(i)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- spec table */
+
+function SpecTable({ specs }) {
+  return (
+    <div className="spec-table" role="table" aria-label="Aircraft specifications">
+      {specs.map(([label, value]) => (
+        <div key={label} className="spec-table__row" role="row">
+          <span className="spec-table__label" role="rowheader">{label}</span>
+          <b className="spec-table__value" role="cell">{value}</b>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------- fleet not found */
+
+function FleetNotFound({ onBack }) {
+  return (
+    <div className="fleet-not-found wrap">
+      <button className="fleet-detail__back" onClick={onBack}>
+        ← Back to fleet
+      </button>
+      <div className="fleet-not-found__body">
+        <span className="fleet-not-found__glyph" aria-hidden="true">✦</span>
+        <h2 className="serif">Aircraft not found</h2>
+        <p>We couldn&rsquo;t find an aircraft matching that identifier.</p>
+        <button className="btn btn--gold" onClick={onBack}>View all aircraft</button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------- fleet detail page */
+
+function FleetDetailPage({ jet, onBack, onBookJet }) {
+  if (!jet) return <FleetNotFound onBack={onBack} />;
+
+  return (
+    <div className="fleet-detail">
+      <div className="fleet-detail__back-bar wrap">
+        <button className="fleet-detail__back" onClick={onBack}>
+          ← Back to fleet
+        </button>
+      </div>
+      <div className="fleet-detail__body wrap">
+        <header className="fleet-detail__header">
+          <span className="badge">{jet.klass}</span>
+          <h1 className="serif fleet-detail__title">{jet.name}</h1>
+          <p className="fleet-detail__blurb">{jet.blurb}</p>
+        </header>
+        <section className="fleet-detail__gallery" aria-label="Gallery">
+          <Gallery images={jet.images ?? []} altPrefix={jet.name} />
+        </section>
+        <section className="fleet-detail__specs-section">
+          <h2 className="serif fleet-detail__section-title">Specifications</h2>
+          <SpecTable specs={jet.specs} />
+        </section>
+        <div className="fleet-detail__cta">
+          <button className="btn btn--gold" onClick={() => onBookJet(jet)}>
+            Book {jet.name} <span className="arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -485,7 +677,7 @@ function CTA() {
           By invitation
         </span>
         <h2 className="serif">Your runway<br /><em style={{ color: "var(--brass-bright)" }}>is waiting.</em></h2>
-        <p>Membership is reviewed personally. Tell us how you travel and we'll be in touch within one business day.</p>
+        <p>Membership is reviewed personally. Tell us how you travel and we&rsquo;ll be in touch within one business day.</p>
         <a className="btn btn--gold" href="#top">Request access <span className="arrow">→</span></a>
       </div>
     </section>
@@ -626,17 +818,32 @@ function BackToTop() {
 
 export default function App() {
   const root = useRef(null);
-  useScrollReveal();
+  const { route, navigate } = useHashRoute();
+  useScrollReveal(route.view);
 
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("theme") === "dark"
   );
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [bookingTo, setBookingTo] = useState("LCY");
+  const [bookingJet, setBookingJet] = useState(null);
 
   function handleSelectDestination(code) {
     setBookingTo(code);
     document.getElementById("book")?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function handleViewDetail(id) {
+    navigate(`#/fleet/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleBookJet(jet) {
+    setBookingJet(jet);
+    navigate("#");
+    setTimeout(() => {
+      document.getElementById("book")?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
   }
 
   useEffect(() => {
@@ -653,24 +860,49 @@ export default function App() {
     return () => cancelAnimationFrame(id);
   }, []);
 
+  const navProps = {
+    darkMode,
+    onToggleTheme: () => setDarkMode((d) => !d),
+    onToggleSettings: () => setSettingsOpen((s) => !s),
+  };
+
+  const settingsProps = {
+    open: settingsOpen,
+    onClose: () => setSettingsOpen(false),
+  };
+
+  if (route.view === "fleet-detail") {
+    const jet = FLEET.find((j) => j.id === route.id);
+    return (
+      <div ref={root}>
+        <Nav {...navProps} />
+        <FleetDetailPage
+          jet={jet}
+          onBack={() => navigate("#fleet")}
+          onBookJet={handleBookJet}
+        />
+        <SettingsPanel {...settingsProps} />
+        <BackToTop />
+      </div>
+    );
+  }
+
   return (
     <div ref={root}>
-      <Nav
-        darkMode={darkMode}
-        onToggleTheme={() => setDarkMode((d) => !d)}
-        onToggleSettings={() => setSettingsOpen((s) => !s)}
-      />
+      <Nav {...navProps} />
       <Hero />
-      <Booking to={bookingTo} onToChange={setBookingTo} />
-      <Fleet />
+      <Booking
+        to={bookingTo}
+        onToChange={setBookingTo}
+        jet={bookingJet}
+        onJetChange={setBookingJet}
+      />
+      <Fleet onViewDetail={handleViewDetail} />
       <Destinations onSelectDestination={handleSelectDestination} />
       <Membership />
       <CTA />
       <Footer />
-      <SettingsPanel
-        open={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-      />
+      <SettingsPanel {...settingsProps} />
       <BackToTop />
     </div>
   );

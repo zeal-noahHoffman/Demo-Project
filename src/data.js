@@ -36,11 +36,16 @@ export const FLEET = [
     blurb:
       "Nimble and intimate. Built for the spontaneous weekend and the short hop most airlines make a chore. Step on minutes before wheels-up.",
     rate: 4200, // USD per flight hour, used by the quote engine
+    images: ["/fleet/light-1.svg", "/fleet/light-2.svg"],
     specs: [
       ["Passengers", "6"],
       ["Range", "1,800 nm"],
       ["Cruise", "470 kts"],
       ["Cabin height", "4.9 ft"],
+      ["Cabin width", "5.1 ft"],
+      ["Baggage", "60 cu ft"],
+      ["Max altitude", "45,000 ft"],
+      ["Crew", "2 pilots"],
     ],
   },
   {
@@ -51,11 +56,16 @@ export const FLEET = [
     blurb:
       "Our signature. Stand-up cabin, transcontinental legs, and a galley that turns altitude into a dinner reservation. The everyday extraordinary.",
     rate: 6800,
+    images: ["/fleet/mid-1.svg", "/fleet/mid-2.svg"],
     specs: [
       ["Passengers", "9"],
       ["Range", "3,400 nm"],
       ["Cruise", "505 kts"],
       ["Cabin height", "5.8 ft"],
+      ["Cabin width", "6.0 ft"],
+      ["Baggage", "95 cu ft"],
+      ["Max altitude", "45,000 ft"],
+      ["Crew", "2 pilots"],
     ],
   },
   {
@@ -66,14 +76,22 @@ export const FLEET = [
     blurb:
       "Continents are a formality. A private suite, a full bed, and the range to cross any ocean nonstop while you sleep through the timezone.",
     rate: 11500,
+    images: ["/fleet/heavy-1.svg", "/fleet/heavy-2.svg"],
     specs: [
       ["Passengers", "14"],
       ["Range", "7,500 nm"],
       ["Cruise", "560 kts"],
       ["Cabin height", "6.2 ft"],
+      ["Cabin width", "7.2 ft"],
+      ["Baggage", "195 cu ft"],
+      ["Max altitude", "51,000 ft"],
+      ["Crew", "2 pilots + 1 cabin"],
     ],
   },
 ];
+
+// Number of specs shown in the fleet tab summary; detail page shows all.
+export const FLEET_SUMMARY_SPEC_COUNT = 4;
 
 // --- Quote engine -------------------------------------------------------
 const R = 6371; // km
