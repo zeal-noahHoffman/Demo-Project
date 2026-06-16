@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c1733"/>
+      <stop offset="50%" style="stop-color:#14b8a6;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#081333"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="#081333"/>
+  <rect width="800" height="400" fill="url(#bg2)"/>
+  <!-- Interior cabin suggestion -->
+  <rect x="160" y="100" width="480" height="200" rx="12" fill="rgba(47,126,240,0.06)" stroke="rgba(47,126,240,0.18)" stroke-width="1"/>
+  <!-- Oval windows -->
+  <ellipse cx="230" cy="180" rx="28" ry="20" fill="none" stroke="rgba(20,184,166,0.5)" stroke-width="1.5"/>
+  <ellipse cx="320" cy="180" rx="28" ry="20" fill="none" stroke="rgba(20,184,166,0.5)" stroke-width="1.5"/>
+  <ellipse cx="410" cy="180" rx="28" ry="20" fill="none" stroke="rgba(20,184,166,0.5)" stroke-width="1.5"/>
+  <ellipse cx="500" cy="180" rx="28" ry="20" fill="none" stroke="rgba(20,184,166,0.5)" stroke-width="1.5"/>
+  <ellipse cx="590" cy="180" rx="28" ry="20" fill="none" stroke="rgba(20,184,166,0.5)" stroke-width="1.5"/>
+  <!-- Window glow -->
+  <ellipse cx="230" cy="180" rx="16" ry="12" fill="rgba(52,200,192,0.12)"/>
+  <ellipse cx="320" cy="180" rx="16" ry="12" fill="rgba(52,200,192,0.12)"/>
+  <ellipse cx="410" cy="180" rx="16" ry="12" fill="rgba(52,200,192,0.12)"/>
+  <ellipse cx="500" cy="180" rx="16" ry="12" fill="rgba(52,200,192,0.12)"/>
+  <ellipse cx="590" cy="180" rx="16" ry="12" fill="rgba(52,200,192,0.12)"/>
+  <text x="400" y="348" font-family="system-ui,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="4">CABIN INTERIOR · 6 PASSENGERS</text>
+</svg>

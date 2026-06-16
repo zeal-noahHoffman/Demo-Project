@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#081333"/>
+      <stop offset="55%" style="stop-color:#143063"/>
+      <stop offset="100%" style="stop-color:#0e2150"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#2f7ef0;stop-opacity:0.28"/>
+      <stop offset="100%" style="stop-color:#2f7ef0;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg)"/>
+  <rect width="800" height="400" fill="url(#glow)"/>
+  <!-- Stylised midsize jet silhouette — slightly larger than light -->
+  <g transform="translate(400,205)" fill="none">
+    <!-- fuselage -->
+    <path d="M-200,12 Q-140,-22 0,-16 Q90,-14 180,-8 Q230,-4 240,10 Q230,24 180,28 Q90,34 0,24 Q-140,20 -200,12 Z" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.24)" stroke-width="1"/>
+    <!-- main wing -->
+    <path d="M-50,-16 L-22,-72 L80,-60 L100,-16 Z" fill="rgba(47,126,240,0.22)" stroke="rgba(47,126,240,0.42)" stroke-width="1"/>
+    <!-- winglet -->
+    <line x1="100" y1="-16" x2="112" y2="-28" stroke="rgba(47,126,240,0.5)" stroke-width="1.5"/>
+    <!-- tail fin -->
+    <path d="M170,-16 L183,-50 L196,-16 Z" fill="rgba(20,184,166,0.22)" stroke="rgba(20,184,166,0.42)" stroke-width="1"/>
+    <!-- horizontal stab -->
+    <path d="M166,14 L168,34 L200,30 L200,14 Z" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <!-- engine nacelle -->
+    <ellipse cx="-10" cy="-8" rx="22" ry="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  </g>
+  <text x="400" y="340" font-family="system-ui,sans-serif" font-size="13" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="4">THE CONTINENTAL · MIDSIZE JET</text>
+  <text x="400" y="78" font-size="24" fill="rgba(47,126,240,0.7)" text-anchor="middle">✧</text>
+</svg>

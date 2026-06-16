@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#0c1733"/>
+  <!-- Stand-up cabin suggestion -->
+  <rect x="120" y="80" width="560" height="240" rx="14" fill="rgba(47,126,240,0.06)" stroke="rgba(47,126,240,0.2)" stroke-width="1"/>
+  <!-- Aisle line -->
+  <line x1="400" y1="95" x2="400" y2="305" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="6 8"/>
+  <!-- Seat rows suggestion -->
+  <rect x="145" y="115" width="110" height="60" rx="8" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.28)" stroke-width="1"/>
+  <rect x="270" y="115" width="110" height="60" rx="8" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.28)" stroke-width="1"/>
+  <rect x="145" y="195" width="110" height="60" rx="8" fill="rgba(20,184,166,0.06)" stroke="rgba(20,184,166,0.2)" stroke-width="1"/>
+  <rect x="270" y="195" width="110" height="60" rx="8" fill="rgba(20,184,166,0.06)" stroke="rgba(20,184,166,0.2)" stroke-width="1"/>
+  <!-- Right-side seats -->
+  <rect x="450" y="115" width="110" height="60" rx="8" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.28)" stroke-width="1"/>
+  <rect x="575" y="115" width="110" height="60" rx="8" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.28)" stroke-width="1"/>
+  <rect x="450" y="195" width="110" height="60" rx="8" fill="rgba(20,184,166,0.06)" stroke="rgba(20,184,166,0.2)" stroke-width="1"/>
+  <rect x="575" y="195" width="110" height="60" rx="8" fill="rgba(20,184,166,0.06)" stroke="rgba(20,184,166,0.2)" stroke-width="1"/>
+  <text x="400" y="348" font-family="system-ui,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="4">STAND-UP CABIN · 9 PASSENGERS</text>
+</svg>
